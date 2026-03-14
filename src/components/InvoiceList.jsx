@@ -1,13 +1,12 @@
-function InvoiceList({ invoices, deleteInvoice }) {
+function InvoiceList({ invoices, setInvoices }) {
 
-  const getStatusColor = (status) => {
-    if (status === "Paid") return "green";
-    if (status === "Pending") return "orange";
-    if (status === "Unpaid") return "red";
+  const handleDelete = (id) => {
+    const updated = invoices.filter((invoice) => invoice.id !== id);
+    setInvoices(updated);
   };
 
   return (
-    <table border="1" cellPadding="10">
+    <table border="1" width="100%">
       <thead>
         <tr>
           <th>ID</th>
@@ -20,15 +19,13 @@ function InvoiceList({ invoices, deleteInvoice }) {
 
       <tbody>
         {invoices.map((invoice) => (
-          <tr key={invoice.id}>
+          <tr key={invoice.id}> 
             <td>{invoice.id}</td>
             <td>{invoice.client}</td>
             <td>Rp {invoice.amount}</td>
-            <td style={{ color: getStatusColor(invoice.status) }}>
-              {invoice.status}
-            </td>
+            <td>{invoice.status}</td>
             <td>
-              <button onClick={() => deleteInvoice(invoice.id)}>
+              <button onClick={() => handleDelete(invoice.id)}>
                 Delete
               </button>
             </td>
