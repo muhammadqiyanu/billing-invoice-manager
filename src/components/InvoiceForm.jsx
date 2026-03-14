@@ -1,7 +1,6 @@
 import { useState } from "react";
 
-function InvoiceForm({ addInvoice, invoices }) {
-
+function InvoiceForm({ invoices, setInvoices }) {
   const [client, setClient] = useState("");
   const [amount, setAmount] = useState("");
   const [status, setStatus] = useState("Pending");
@@ -10,13 +9,13 @@ function InvoiceForm({ addInvoice, invoices }) {
     e.preventDefault();
 
     const newInvoice = {
-  id: invoices.length + 1,
-  client,
-  amount: Number(amount),
-  status
-};
+      id: invoices.length + 1,
+      client,
+      amount: Number(amount),
+      status,
+    };
 
-    addInvoice(newInvoice);
+    setInvoices([...invoices, newInvoice]);
 
     setClient("");
     setAmount("");
@@ -24,8 +23,7 @@ function InvoiceForm({ addInvoice, invoices }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-
+    <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
       <input
         type="text"
         placeholder="Client Name"
@@ -44,15 +42,12 @@ function InvoiceForm({ addInvoice, invoices }) {
         value={status}
         onChange={(e) => setStatus(e.target.value)}
       >
-        <option>Paid</option>
-        <option>Pending</option>
-        <option>Unpaid</option>
+        <option value="Pending">Pending</option>
+        <option value="Paid">Paid</option>
+        <option value="Unpaid">Unpaid</option>
       </select>
 
-      <button type="submit">
-        Add Invoice
-      </button>
-
+      <button type="submit">Add Invoice</button>
     </form>
   );
 }
